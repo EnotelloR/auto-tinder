@@ -5,5 +5,6 @@ export const StyledBox = styled(Box)(() => ({
   width: '20rem',
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'flex-end',
+  justifyContent: 'center',
+  gap: '0.5rem',
 }));

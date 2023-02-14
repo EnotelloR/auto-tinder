@@ -1,44 +1,46 @@
 import React, { useState } from 'react';
-import { Alert, InputLabel, TextField } from '@mui/material';
-import { Button } from '@mui/material';
-import { Container } from '@mui/material';
-import { Typography } from '@mui/material';
 import { FieldValues, useForm } from 'react-hook-form';
-import { InputAdornment } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { StyledBox } from './components/StyledBox';
-import { login } from '../auth.service';
-import { useAuthStore } from '@features/auth/auth.hooks';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { registration } from '@features/auth/auth.service';
+import {
+  Alert,
+  Button,
+  Container,
+  InputAdornment,
+  InputLabel,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { StyledBox } from '@features/auth/Login/components/StyledBox';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { useAlert } from '@features/alert';
+import { registrationSchema } from '@features/auth/Registration/registration.schema';
 
-export const Login = () => {
+export const Registration = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({ resolver: yupResolver(registrationSchema) });
 
   const [warningMessage, setWarningMessage] = useState('');
 
-  const setAuth = useAuthStore((state) => state.setAuth);
+  const startAlert = useAlert();
+
   const navigate = useNavigate();
   const location = useLocation();
 
-  const auth = (email: string, password: string) => {
+  const signUp = (email: string, name: string, password: string) => {
     try {
-      login(email, password)
-        .then((response) => {
-          localStorage.setItem('accessToken', response.data.accessToken);
-          if (response.data.userId)
-            localStorage.setItem('refreshToken', response.data.userId);
-          setWarningMessage('');
-          setAuth(true);
-          if (location.state?.from) navigate(location.state.from);
-          else navigate('/');
+      registration({ email, name, password })
+        .then(() => {
+          startAlert({ text: 'Вы успешно зарегистрировались!', severity: 'success' });
+          navigate('/login', { state: { from: location.state?.from } });
         })
         .catch((error) => {
           if (error.response.data.status === 'NOT_FOUND')
-            setWarningMessage('Такого пользователя не существует!');
+            setWarningMessage('Возникла ошибка при регистрации!');
         });
     } catch (e) {
       console.log(e);
@@ -48,7 +50,7 @@ export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = (data: FieldValues) => {
-    auth(data.email, data.password);
+    signUp(data.email, data.name, data.password);
   };
 
   return (
@@ -70,7 +72,15 @@ export const Login = () => {
           {...register('email', { required: true })}
           type={'email'}
           error={!!errors.email}
-          label={errors.email && 'Вы не ввели почту!'}
+          label={errors.email && errors.email.message?.toString()}
+        />
+      </StyledBox>
+      <StyledBox>
+        <InputLabel>Имя</InputLabel>
+        <TextField
+          {...register('name', { required: true })}
+          error={!!errors.name}
+          label={errors.name && errors.name.message?.toString()}
         />
       </StyledBox>
       <StyledBox>
@@ -79,7 +89,7 @@ export const Login = () => {
           type={showPassword ? 'text' : 'password'}
           {...register('password', { required: true })}
           error={!!errors.password}
-          label={errors.password && 'Вы не ввели пароль'}
+          label={errors.password && errors.password.message?.toString()}
           InputProps={{
             endAdornment: (
               <InputAdornment
@@ -91,6 +101,15 @@ export const Login = () => {
               </InputAdornment>
             ),
           }}
+        />
+      </StyledBox>
+      <StyledBox>
+        <InputLabel>Повторите пароль</InputLabel>
+        <TextField
+          type={'password'}
+          {...register('passwordRepeat', { required: true })}
+          error={!!errors.passwordRepeat}
+          label={errors.passwordRepeat && errors.passwordRepeat.message?.toString()}
         />
       </StyledBox>
       <Button variant={'contained'} size={'large'} sx={{ width: '20%' }} type={'submit'}>

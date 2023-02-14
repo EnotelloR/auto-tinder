@@ -1,6 +1,6 @@
 export interface AuthResponse {
   accessToken: string;
-  refreshToken: string;
+  userId: string;
 }
 
 export interface AuthStore {
@@ -10,9 +10,8 @@ export interface AuthStore {
 
 export interface RegistrationUser {
   email: string;
-  password: string;
   name: string;
-  surname: string;
+  password: string;
 }
 
 export enum CurrentUserRoles {

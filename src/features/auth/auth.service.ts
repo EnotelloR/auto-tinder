@@ -6,17 +6,17 @@ export const login = async (
   email: string,
   password: string,
 ): Promise<AxiosResponse<AuthResponse>> => {
-  return await requestService.post('/v1/auth/login', { email, password });
+  return await requestService.post('/auth/login', { email, password });
 };
 
 export const registration = async (
   user: RegistrationUser,
 ): Promise<AxiosResponse<AuthResponse>> => {
-  return await requestService.post('/v1/auth/signup', {
+  return await requestService.post('/users', {
     ...user,
   });
 };
 
 export const getUserInfo = async (): Promise<AxiosResponse<CurrentUser>> => {
-  return await requestService.get('/v1/users/me');
+  return await requestService.get('/users/me');
 };
