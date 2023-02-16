@@ -8,7 +8,6 @@ import {
   Button,
   Container,
   InputAdornment,
-  InputLabel,
   TextField,
   Typography,
 } from '@mui/material';
@@ -68,28 +67,25 @@ export const Registration = () => {
     >
       <Typography variant={'h4'}>Регистрация</Typography>
       <StyledBox>
-        <InputLabel>Почта</InputLabel>
         <TextField
           {...register('email', { required: true })}
           error={!!errors.email}
-          label={errors.email && errors.email.message?.toString()}
+          label={errors.email ? errors.email.message?.toString() : 'Почта'}
         />
       </StyledBox>
       <StyledBox>
-        <InputLabel>Имя</InputLabel>
         <TextField
           {...register('name', { required: true })}
           error={!!errors.name}
-          label={errors.name && errors.name.message?.toString()}
+          label={errors.name ? errors.name.message?.toString() : 'Имя'}
         />
       </StyledBox>
       <StyledBox>
-        <InputLabel>Пароль</InputLabel>
         <TextField
           type={showPassword ? 'text' : 'password'}
           {...register('password', { required: true })}
           error={!!errors.password}
-          label={errors.password && errors.password.message?.toString()}
+          label={errors.password ? errors.password.message?.toString() : 'Пароль'}
           InputProps={{
             endAdornment: (
               <InputAdornment
@@ -104,12 +100,15 @@ export const Registration = () => {
         />
       </StyledBox>
       <StyledBox>
-        <InputLabel>Повторите пароль</InputLabel>
         <TextField
           type={'password'}
           {...register('passwordRepeat', { required: true })}
           error={!!errors.passwordRepeat}
-          label={errors.passwordRepeat && errors.passwordRepeat.message?.toString()}
+          label={
+            errors.passwordRepeat
+              ? errors.passwordRepeat.message?.toString()
+              : 'Повторите пароль'
+          }
         />
       </StyledBox>
       <Button variant={'contained'} size={'large'} sx={{ width: '20%' }} type={'submit'}>

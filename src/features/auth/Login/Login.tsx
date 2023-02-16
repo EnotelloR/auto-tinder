@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, InputLabel, TextField } from '@mui/material';
+import { Alert, TextField } from '@mui/material';
 import { Button } from '@mui/material';
 import { Container } from '@mui/material';
 import { Typography } from '@mui/material';
@@ -69,21 +69,19 @@ export const Login = () => {
     >
       <Typography variant={'h4'}>Войти в систему</Typography>
       <StyledBox>
-        <InputLabel>Почта</InputLabel>
         <TextField
           {...register('email', { required: true })}
           type={'email'}
           error={!!errors.email}
-          label={errors.email && 'Вы не ввели почту!'}
+          label={errors.email ? 'Вы не ввели почту!' : 'Почта'}
         />
       </StyledBox>
       <StyledBox>
-        <InputLabel>Пароль</InputLabel>
         <TextField
           type={showPassword ? 'text' : 'password'}
           {...register('password', { required: true })}
           error={!!errors.password}
-          label={errors.password && 'Вы не ввели пароль'}
+          label={errors.password ? 'Вы не ввели пароль' : 'Пароль'}
           InputProps={{
             endAdornment: (
               <InputAdornment
