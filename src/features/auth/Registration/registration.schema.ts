@@ -2,10 +2,11 @@ import * as yup from 'yup';
 export const registrationSchema = yup.object().shape({
   email: yup
     .string()
+    .required('Вы не ввели почту!')
     .max(255, 'Слишком много символов.')
     .matches(
       /^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$/,
-      'Вы должны ввести действительную почту.',
+      'Проверьте правильность почты!',
     ),
   name: yup
     .string()

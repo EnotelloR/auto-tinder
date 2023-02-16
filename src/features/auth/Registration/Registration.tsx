@@ -16,6 +16,7 @@ import { StyledBox } from '@features/auth/Login/components/StyledBox';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useAlert } from '@features/alert';
 import { registrationSchema } from '@features/auth/Registration/registration.schema';
+import { routes } from '@infrastructure/routing';
 
 export const Registration = () => {
   const {
@@ -36,7 +37,7 @@ export const Registration = () => {
       registration({ email, name, password })
         .then(() => {
           startAlert({ text: 'Вы успешно зарегистрировались!', severity: 'success' });
-          navigate('/login', { state: { from: location.state?.from } });
+          navigate(routes.login.path, { state: { from: location.state?.from } });
         })
         .catch((error) => {
           if (error.response.data.status === 'NOT_FOUND')
@@ -65,12 +66,11 @@ export const Registration = () => {
         alignItems: 'center',
       }}
     >
-      <Typography variant={'h4'}>Войти в систему</Typography>
+      <Typography variant={'h4'}>Регистрация</Typography>
       <StyledBox>
         <InputLabel>Почта</InputLabel>
         <TextField
           {...register('email', { required: true })}
-          type={'email'}
           error={!!errors.email}
           label={errors.email && errors.email.message?.toString()}
         />

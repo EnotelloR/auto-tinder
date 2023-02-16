@@ -1,5 +1,5 @@
 export const routes = {
-  main: '/',
-  login: 'login',
-  signup: '/signup',
+  main: { name: 'Главная', path: '/' },
+  login: { name: 'Вход', path: '/login' },
+  signup: { name: 'Регистрация', path: '/signup' },
 };

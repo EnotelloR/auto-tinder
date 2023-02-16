@@ -13,7 +13,11 @@ export const requestService = axios.create({
 });
 
 const getAccessToken = () => localStorage.getItem('accessToken') || '';
-const getRefreshToken = () => localStorage.getItem('refreshToken') || '';
+const setAccessToken = (accessToken: string) =>
+  localStorage.setItem('accessToken', accessToken);
+const getRefreshToken = () => localStorage.getItem('userId') || '';
+const setRefreshToken = (refreshToken: string) =>
+  localStorage.setItem('userId', refreshToken);
 
 requestService.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   if (getAccessToken()) {
@@ -39,8 +43,8 @@ requestService.interceptors.response.use(
         const response = await axios.post<AuthResponse>(`${serverURL}/auth/refresh`, {
           refreshToken: getRefreshToken(),
         });
-        localStorage.setItem('accessToken', response.data.accessToken);
-        localStorage.setItem('refreshToken', response.data.refreshToken);
+        setAccessToken(response.data.accessToken);
+        setRefreshToken(response.data.userId);
         return await requestService.request(originalRequest);
       } catch (e) {
         // await Promise.reject(e).finally(() => logOut());

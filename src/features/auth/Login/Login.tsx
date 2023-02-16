@@ -39,6 +39,10 @@ export const Login = () => {
         .catch((error) => {
           if (error.response.data.status === 'NOT_FOUND')
             setWarningMessage('Такого пользователя не существует!');
+          else if (error.response.data.Reason === 'User account is locked')
+            setWarningMessage(
+              'Активируйте свою учётную запись по ссылке, которую мы вам отправили на электронную почту!',
+            );
         });
     } catch (e) {
       console.log(e);
