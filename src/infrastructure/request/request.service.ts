@@ -16,8 +16,8 @@ export const requestService = axios.create({
 export const getAccessToken = () => localStorage.getItem('accessToken') || '';
 export const setAccessToken = (accessToken: string) =>
   localStorage.setItem('accessToken', accessToken);
-export const getUserID = () => localStorage.getItem('userId') || '';
-export const setUserID = (userID: string) => localStorage.setItem('userId', userID);
+export const getLocalUserID = () => localStorage.getItem('userId') || undefined;
+export const setLocalUserID = (userID: string) => localStorage.setItem('userId', userID);
 
 requestService.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   if (getAccessToken()) {
@@ -32,14 +32,19 @@ requestService.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-    if (error.response?.status == 401 && error.config && !originalRequest._retry) {
+    if (
+      error.response?.status == 401 &&
+      error.config &&
+      error.response?.data.status === 'UNAUTHORIZED' &&
+      !originalRequest._retry
+    ) {
       originalRequest._retry = true;
       try {
         const response = await requestService.post<IAuthResponse>(
           `${serverURL}/auth/refresh`,
         );
         setAccessToken(response.data.accessToken);
-        setUserID(response.data.userId);
+        setLocalUserID(response.data.userId);
         return await requestService.request(originalRequest);
       } catch (e) {
         await Promise.reject(e).finally(() => logOut());

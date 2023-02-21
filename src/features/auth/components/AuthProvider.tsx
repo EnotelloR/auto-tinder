@@ -7,11 +7,12 @@ export let logOut = (): void => {
 };
 
 export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
-  const { setAuth } = useAuthStore();
+  const { setAuth, setUserID } = useAuthStore();
   logOut = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('userID');
     setAuth(false);
+    setUserID('');
   };
   return <>{children}</>;
 };

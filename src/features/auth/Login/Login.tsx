@@ -10,7 +10,7 @@ import { StyledBox } from './components/StyledBox';
 import { login } from '../auth.service';
 import { useAuthStore } from '@features/auth/auth.hooks';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { setAccessToken, setUserID } from '@infrastructure/request';
+import { setAccessToken, setLocalUserID } from '@infrastructure/request';
 
 export const Login = () => {
   const {
@@ -21,7 +21,7 @@ export const Login = () => {
 
   const [warningMessage, setWarningMessage] = useState('');
 
-  const setAuth = useAuthStore((state) => state.setAuth);
+  const { setAuth, setUserID } = useAuthStore();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -30,9 +30,10 @@ export const Login = () => {
       login(email, password)
         .then((response) => {
           setAccessToken(response.data.accessToken);
-          setUserID(response.data.accessToken);
+          setLocalUserID(response.data.userId);
           setWarningMessage('');
           setAuth(true);
+          setUserID(response.data.userId);
           location.state?.from ? navigate(location.state.from) : navigate('/');
         })
         .catch((error) => {
