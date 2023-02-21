@@ -11,6 +11,7 @@ export const registrationSchema = yup.object().shape({
   name: yup
     .string()
     .required('Вы не ввели ваше имя!')
+    .matches(/^[А-ЯЁ][а-яё]*$/, 'Введите своё имя на русском!')
     .max(50, 'Вы превысили максимальное количество символов.'),
   password: yup
     .string()

@@ -1,5 +1,6 @@
 import axios, { InternalAxiosRequestConfig } from 'axios';
-import { AuthResponse } from '@features/auth/auth.entity';
+import { IAuthResponse } from '@features/auth/auth.entity';
+import { logOut } from '@features/auth';
 
 const serverURL = import.meta.env.VITE_API_URL;
 
@@ -12,12 +13,11 @@ export const requestService = axios.create({
   },
 });
 
-const getAccessToken = () => localStorage.getItem('accessToken') || '';
-const setAccessToken = (accessToken: string) =>
+export const getAccessToken = () => localStorage.getItem('accessToken') || '';
+export const setAccessToken = (accessToken: string) =>
   localStorage.setItem('accessToken', accessToken);
-const getRefreshToken = () => localStorage.getItem('userId') || '';
-const setRefreshToken = (refreshToken: string) =>
-  localStorage.setItem('userId', refreshToken);
+export const getUserID = () => localStorage.getItem('userId') || '';
+export const setUserID = (userID: string) => localStorage.setItem('userId', userID);
 
 requestService.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   if (getAccessToken()) {
@@ -32,22 +32,17 @@ requestService.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-    if (
-      error.response?.status == 401 &&
-      error.config &&
-      !originalRequest._retry &&
-      !!getRefreshToken()
-    ) {
+    if (error.response?.status == 401 && error.config && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        const response = await axios.post<AuthResponse>(`${serverURL}/auth/refresh`, {
-          refreshToken: getRefreshToken(),
-        });
+        const response = await requestService.post<IAuthResponse>(
+          `${serverURL}/auth/refresh`,
+        );
         setAccessToken(response.data.accessToken);
-        setRefreshToken(response.data.userId);
+        setUserID(response.data.userId);
         return await requestService.request(originalRequest);
       } catch (e) {
-        // await Promise.reject(e).finally(() => logOut());
+        await Promise.reject(e).finally(() => logOut());
       }
     } else {
       await Promise.reject(error);

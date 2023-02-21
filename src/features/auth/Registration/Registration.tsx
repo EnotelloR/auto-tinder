@@ -111,8 +111,8 @@ export const Registration = () => {
           }
         />
       </StyledBox>
-      <Button variant={'contained'} size={'large'} sx={{ width: '20%' }} type={'submit'}>
-        Войти
+      <Button variant={'contained'} size={'large'} type={'submit'}>
+        Зарегистрироваться
       </Button>
       {warningMessage && <Alert severity="warning">{warningMessage}</Alert>}
     </Container>

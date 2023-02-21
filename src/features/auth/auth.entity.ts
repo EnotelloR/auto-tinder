@@ -1,14 +1,14 @@
-export interface AuthResponse {
+export interface IAuthResponse {
   accessToken: string;
   userId: string;
 }
 
-export interface AuthStore {
+export interface IAuthStore {
   isAuth: boolean;
   setAuth: (bool: boolean) => void;
 }
 
-export interface RegistrationUser {
+export interface IRegistrationUser {
   email: string;
   name: string;
   password: string;

@@ -10,6 +10,7 @@ import { StyledBox } from './components/StyledBox';
 import { login } from '../auth.service';
 import { useAuthStore } from '@features/auth/auth.hooks';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { setAccessToken, setUserID } from '@infrastructure/request';
 
 export const Login = () => {
   const {
@@ -28,13 +29,11 @@ export const Login = () => {
     try {
       login(email, password)
         .then((response) => {
-          localStorage.setItem('accessToken', response.data.accessToken);
-          if (response.data.userId)
-            localStorage.setItem('refreshToken', response.data.userId);
+          setAccessToken(response.data.accessToken);
+          setUserID(response.data.accessToken);
           setWarningMessage('');
           setAuth(true);
-          if (location.state?.from) navigate(location.state.from);
-          else navigate('/');
+          location.state?.from ? navigate(location.state.from) : navigate('/');
         })
         .catch((error) => {
           if (error.response.data.status === 'NOT_FOUND')
