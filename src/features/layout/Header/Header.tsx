@@ -27,6 +27,11 @@ export const Header = () => {
           <Button component={RouterLink} to={routes.main.path}>
             <Logo />
           </Button>
+          {isAuth && (
+            <Button component={RouterLink} to={routes.myCars.path}>
+              Мой гараж
+            </Button>
+          )}
         </Box>
         {!isAuth ? (
           <Box>

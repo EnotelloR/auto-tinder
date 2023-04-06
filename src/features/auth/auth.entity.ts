@@ -5,7 +5,9 @@ export interface IAuthResponse {
 
 export interface IAuthStore {
   isAuth: boolean;
+  userID?: string;
   setAuth: (bool: boolean) => void;
+  setUserID: (id: string) => void;
 }
 
 export interface IRegistrationUser {

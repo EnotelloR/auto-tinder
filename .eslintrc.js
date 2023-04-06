@@ -50,5 +50,12 @@ module.exports = {
     ],
     'jsx-a11y/no-noninteractive-element-interactions': ['warn'],
     'jsx-a11y/no-static-element-interactions': ['warn'],
+    '@typescript-eslint/consistent-type-imports': [
+      'error',
+      {
+        prefer: 'type-imports',
+        disallowTypeAnnotations: false,
+      },
+    ],
   },
 };

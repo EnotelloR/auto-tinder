@@ -1,6 +1,6 @@
-import { AxiosResponse } from 'axios';
+import type { AxiosResponse } from 'axios';
 import { requestService } from '@infrastructure/request';
-import {
+import type {
   IAuthResponse,
   CurrentUser,
   IRegistrationUser,
@@ -13,7 +13,7 @@ export const login = async (
   return await requestService.post('/auth/login', { email, password });
 };
 
-export const registration = async (
+export const register = async (
   user: IRegistrationUser,
 ): Promise<AxiosResponse<IAuthResponse>> => {
   return await requestService.post('/users', {

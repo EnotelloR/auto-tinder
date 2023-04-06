@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { FieldValues, useForm } from 'react-hook-form';
+import type { FieldValues } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { registration } from '@features/auth/auth.service';
 import {
   Alert,
   Button,
@@ -16,6 +16,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useAlert } from '@features/alert';
 import { registrationSchema } from '@features/auth/Registration/registration.schema';
 import { routes } from '@infrastructure/routing';
+import { useRegistration } from '@features/auth/auth.hooks';
 
 export const Registration = () => {
   const {
@@ -30,6 +31,8 @@ export const Registration = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
+
+  const { mutateAsync: registration } = useRegistration();
 
   const signUp = (email: string, name: string, password: string) => {
     try {
