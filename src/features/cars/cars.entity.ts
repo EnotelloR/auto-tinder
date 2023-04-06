@@ -1,14 +1,13 @@
 export interface ICarCreate {
-  userId: string;
   vinCode: string;
   stateNumber: string;
   manufacturedAt: number;
   totalOwners: number;
-  description: string;
+  description?: string;
   mileage: number;
   price: number;
   isExchanged: boolean;
-  isPromoted: boolean;
+  isPromoted?: boolean;
   body: number;
   engine: number;
   drive: number;
@@ -28,13 +27,13 @@ export interface ICar
   isVerified: boolean;
   totalLikes: number;
   totalViews: number;
-  brand: TBrand;
-  model: TModel;
-  engine: TEngine;
-  user: undefined;
-  drive: TDrive;
-  gearbox: TGearbox;
-  body: TBody;
+  brand: ICarDetail;
+  model: ICarDetail;
+  engine: ICarDetail;
+  user: IUser;
+  drive: ICarDetail;
+  gearbox: ICarDetail;
+  body: ICarDetail;
   report: {
     isMatchCharacteristics: boolean;
     totalOwners: number;
@@ -42,20 +41,70 @@ export interface ICar
     isWanted: boolean;
     totalMileageRecords: number;
   };
-  city: TCity;
+  city: ICarDetail;
   todayLikes: number;
   todayViews: number;
 }
 
-interface ICarDetail {
+export interface ICarDetail {
   id: number;
   name: string;
 }
 
-export type TGearbox = ICarDetail;
-export type TEngine = ICarDetail;
-export type TDrive = ICarDetail;
-export type TCity = ICarDetail;
-export type TBrand = ICarDetail;
-export type TModel = ICarDetail;
-export type TBody = ICarDetail;
+export enum DetailsTypes {
+  BRAND = 'BRAND',
+  ENGINE = 'ENGINE',
+  GEARBOX = 'GEARBOX',
+  BODY = 'BODY',
+  DRIVE = 'DRIVE',
+  CITY = 'CITY',
+}
+
+export enum carFilters {
+  CURRENT_USER = 'CURRENT_USER',
+  ALL_PROMOTED = 'ALL_PROMOTED',
+  USER_ID = 'USER_ID',
+  ALL = 'ALL',
+}
+
+interface IUser {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  authority: string;
+  hasPhone: boolean;
+  hasCar: boolean;
+  hasCarPreference: boolean;
+}
+
+export interface IGetCarsAnswer {
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  content: ICar[];
+  number: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  pageable: {
+    offset: number;
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    pageNumber: number;
+    pageSize: number;
+    paged: boolean;
+    unpaged: boolean;
+  };
+  numberOfElements: number;
+  first: boolean;
+  last: boolean;
+  empty: boolean;
+
+  id: string;
+}

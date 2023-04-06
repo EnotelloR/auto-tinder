@@ -1,6 +1,6 @@
-import { ThemeOptions } from '@mui/material/styles';
+import type { ThemeOptions } from '@mui/material/styles';
 import { createTheme, responsiveFontSizes, ThemeProvider } from '@mui/material';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 const themeOptions: ThemeOptions = {
   palette: {
@@ -12,7 +12,7 @@ const themeOptions: ThemeOptions = {
       main: '#b02743',
     },
     background: {
-      paper: '#091756',
+      paper: '#1a2e86',
       default: '#1e1e1e',
     },
   },

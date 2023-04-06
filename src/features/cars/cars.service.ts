@@ -1,54 +1,45 @@
-import { AxiosResponse } from 'axios';
+import type { AxiosResponse } from 'axios';
 import { requestService } from '@infrastructure/request';
-import {
+import type {
+  DetailsTypes,
   ICarCreate,
-  TBody,
-  TBrand,
-  TCity,
-  TDrive,
-  TEngine,
-  TGearbox,
-  TModel,
+  ICarDetail,
+  IGetCarsAnswer,
 } from '@features/cars/cars.entity';
+import type { carFilters } from '@features/cars/cars.entity';
 
 export const createCar = async (newCar: ICarCreate): Promise<AxiosResponse> => {
   return await requestService.post('/cars', newCar);
 };
 
-export const getAllCars = async (): Promise<AxiosResponse> => {
-  return await requestService.get(`/cars`);
+// export const getAllCars = async (): Promise<AxiosResponse<IGetCarsAnswer>> => {
+//   return await requestService.get(`/cars`);
+// };
+
+export const getCars = async (
+  carFilter: carFilters,
+  page?: number,
+  size?: number,
+): Promise<AxiosResponse<IGetCarsAnswer>> => {
+  return await requestService.get(`/cars/search`, { params: { carFilter, page, size } });
 };
 
-export const getMyCars = async (userID: string | undefined): Promise<AxiosResponse> => {
+// export const getMyCars = async (): Promise<AxiosResponse<ICar[]>> => {
+//   return await requestService.get(`/cars/users/current`);
+// };
+
+export const getUserCars = async (userID: string | undefined): Promise<AxiosResponse> => {
   return await requestService.get(`/cars/users/${userID}`);
 };
 
-export const getGearboxes = async (): Promise<AxiosResponse<TGearbox[]>> => {
-  return await requestService.get(`/cars/gearboxes`);
-};
-
-export const getEngines = async (): Promise<AxiosResponse<TEngine[]>> => {
-  return await requestService.get(`/cars/engines`);
-};
-
-export const getDrives = async (): Promise<AxiosResponse<TDrive[]>> => {
-  return await requestService.get(`/cars/drives`);
-};
-
-export const getCities = async (): Promise<AxiosResponse<TCity[]>> => {
-  return await requestService.get(`/cars/drives`);
-};
-
-export const getBrands = async (): Promise<AxiosResponse<TBrand[]>> => {
-  return await requestService.get(`/cars/brands`);
+export const getDetails = async (
+  type: DetailsTypes,
+): Promise<AxiosResponse<ICarDetail[]>> => {
+  return await requestService.get(`/cars/details`, { params: { type } });
 };
 
 export const getBrandModels = async (
-  modelID: string,
-): Promise<AxiosResponse<TModel[]>> => {
-  return await requestService.get(`/cars/brands/${modelID}/models`);
-};
-
-export const getBodies = async (): Promise<AxiosResponse<TBody[]>> => {
-  return await requestService.get(`/cars/bodies`);
+  brandID: string,
+): Promise<AxiosResponse<ICarDetail[]>> => {
+  return await requestService.get(`/cars/brands/${brandID}/models`);
 };

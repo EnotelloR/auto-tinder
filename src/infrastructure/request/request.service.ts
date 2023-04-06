@@ -1,6 +1,8 @@
-import axios, { InternalAxiosRequestConfig } from 'axios';
-import { IAuthResponse } from '@features/auth/auth.entity';
+import type { InternalAxiosRequestConfig } from 'axios';
+import axios from 'axios';
+import type { IAuthResponse } from '@features/auth/auth.entity';
 import { logOut } from '@features/auth';
+import { getAccessToken, setAccessToken, setLocalUserID } from './request.localstorage';
 
 const serverURL = import.meta.env.VITE_API_URL;
 
@@ -12,12 +14,6 @@ export const requestService = axios.create({
     'Content-Type': 'application/json',
   },
 });
-
-export const getAccessToken = () => localStorage.getItem('accessToken') || '';
-export const setAccessToken = (accessToken: string) =>
-  localStorage.setItem('accessToken', accessToken);
-export const getLocalUserID = () => localStorage.getItem('userId') || undefined;
-export const setLocalUserID = (userID: string) => localStorage.setItem('userId', userID);
 
 requestService.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   if (getAccessToken()) {
@@ -32,12 +28,14 @@ requestService.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
+    console.log(!!error.config);
     if (
-      error.response?.status == 401 &&
+      (error.response?.status == 401 || error.response?.status == 400) &&
       error.config &&
-      error.response?.data.status === 'UNAUTHORIZED' &&
+      // error.response?.data.Exception === 'TokenExpiredException' &&
       !originalRequest._retry
     ) {
+      console.log(originalRequest._retry);
       originalRequest._retry = true;
       try {
         const response = await requestService.post<IAuthResponse>(
