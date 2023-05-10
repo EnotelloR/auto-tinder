@@ -1,15 +1,45 @@
-import React from 'react';
-import { Paper } from '@mui/material';
-import { useMyCars } from '@features/cars/cars.hooks';
+import React, { useMemo } from 'react';
+import { Container, Paper, Typography } from '@mui/material';
+import { useCars } from '@features/cars/cars.hooks';
 import { CarCard } from '@features/cars/components/CarCard';
+import type { CarFilters, ICar } from '@features/cars';
 
-export const CarsList = () => {
-  const cars = useMyCars();
+interface CarsListProps {
+  type: CarFilters;
+  cars: ICar[];
+}
+
+export const CarsList = ({ type, cars }: CarsListProps) => {
+  const isExchangeInMyCars = useMemo(
+    () => cars && !!cars.find((car) => car.isExchanged),
+    [cars],
+  );
   return (
-    <Paper>
-      {cars.data?.content.map((item) => (
-        <CarCard key={item.id} car={item} />
-      ))}
+    <Paper sx={{ width: '100%' }}>
+      <Container
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          padding: '1rem',
+          gap: '1rem',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+        }}
+      >
+        {cars.length > 0 ? (
+          cars.map((item) => (
+            <CarCard
+              key={item.id}
+              car={item}
+              type={type}
+              noExchangeInCars={!isExchangeInMyCars}
+            />
+          ))
+        ) : (
+          <Typography>Автомобилей не найдено!</Typography>
+        )}
+      </Container>
     </Paper>
   );
 };

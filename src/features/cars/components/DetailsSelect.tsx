@@ -1,4 +1,5 @@
 import React from 'react';
+import type { TextFieldProps } from '@mui/material';
 import { MenuItem, TextField } from '@mui/material';
 import type { FieldValues } from 'react-hook-form';
 import type { UseFormRegister } from 'react-hook-form/dist/types/form';
@@ -14,15 +15,10 @@ interface DetailSelectProps {
   disabled?: boolean;
 }
 
-export const DetailsSelect: React.FC<DetailSelectProps> = ({
-  label,
-  registerName,
-  requiredText,
-  isError,
-  register,
-  data,
-  disabled = false,
-}) => {
+export const DetailsSelect: React.FC<DetailSelectProps & TextFieldProps> = (
+  { label, registerName, requiredText, isError, register, data, disabled = false },
+  ...args: string[]
+) => {
   return (
     <TextField
       select
@@ -34,6 +30,7 @@ export const DetailsSelect: React.FC<DetailSelectProps> = ({
       })}
       error={isError}
       disabled={disabled}
+      {...args}
     >
       {data.map((option) => (
         <MenuItem key={option.id} value={option.id}>

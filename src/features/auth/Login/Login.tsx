@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { Alert, TextField } from '@mui/material';
-import { Button } from '@mui/material';
-import { Container } from '@mui/material';
-import { Typography } from '@mui/material';
+import {
+  Alert,
+  Button,
+  Container,
+  InputAdornment,
+  TextField,
+  Typography,
+} from '@mui/material';
 import type { FieldValues } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
-import { InputAdornment } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { StyledBox } from './components/StyledBox';
 import { login } from '../auth.service';
@@ -30,11 +33,11 @@ export const Login = () => {
     try {
       login(email, password)
         .then((response) => {
-          setAccessToken(response.data.accessToken);
-          setLocalUserID(response.data.userId);
+          setAccessToken(response.data.access_token);
+          setLocalUserID(response.data.user_id);
           setWarningMessage('');
           setAuth(true);
-          setUserID(response.data.userId);
+          setUserID(response.data.user_id);
           location.state?.from ? navigate(location.state.from) : navigate('/');
         })
         .catch((error) => {

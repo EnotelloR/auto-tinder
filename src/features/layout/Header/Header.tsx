@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppBar, Box, Button, IconButton, Menu, MenuItem, Toolbar } from '@mui/material';
 import { routes } from '@infrastructure/routing';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import { Logo } from '@features/layout/Header/components';
 import { useAuthStore } from '@features/auth/auth.hooks';
 import { AccountCircle } from '@mui/icons-material';
@@ -19,7 +19,14 @@ export const Header = () => {
     setAnchorEl(null);
   };
 
+  const navigate = useNavigate();
+
   const handleLogOut = () => logOut();
+
+  const handleGoToProfile = () => {
+    navigate(routes.profile.path);
+    handleClose();
+  };
   return (
     <AppBar position={'sticky'}>
       <Toolbar>
@@ -32,6 +39,17 @@ export const Header = () => {
               Мой гараж
             </Button>
           )}
+          <Button component={RouterLink} to={routes.allExchangedCarsScreen.path}>
+            Искать авто
+          </Button>
+          <Button component={RouterLink} to={routes.rentCars.path}>
+            Поиск аренды
+          </Button>
+        </Box>
+        <Box>
+          <Button>Вы лайкали</Button>
+          <Button>Мои лайки</Button>
+          <Button>Совпадения</Button>
         </Box>
         {!isAuth ? (
           <Box>
@@ -77,7 +95,7 @@ export const Header = () => {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>Профиль</MenuItem>
+              <MenuItem onClick={handleGoToProfile}>Профиль</MenuItem>
               <MenuItem onClick={handleLogOut}>Выйти</MenuItem>
             </Menu>
           </Box>

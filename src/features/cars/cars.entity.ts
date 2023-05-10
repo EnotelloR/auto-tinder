@@ -22,7 +22,7 @@ export interface ICar
     ICarCreate,
     'body' | 'engine' | 'drive' | 'gearbox' | 'brand' | 'model' | 'exchangeCity'
   > {
-  id: number;
+  id: string;
   photos: { id: number; photoLink: string }[];
   isVerified: boolean;
   totalLikes: number;
@@ -42,8 +42,19 @@ export interface ICar
     totalMileageRecords: number;
   };
   city: ICarDetail;
-  todayLikes: number;
-  todayViews: number;
+}
+
+export interface IAboutCar extends ICar {
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    phone: string;
+    authority: string;
+    hasPhone: boolean;
+    hasCar: boolean;
+    hasCarPreference: boolean;
+  };
 }
 
 export interface ICarDetail {
@@ -60,11 +71,11 @@ export enum DetailsTypes {
   CITY = 'CITY',
 }
 
-export enum carFilters {
+export enum CarFilters {
   CURRENT_USER = 'CURRENT_USER',
-  ALL_PROMOTED = 'ALL_PROMOTED',
+  ALL_RENTABLE = 'ALL_RENTABLE',
   USER_ID = 'USER_ID',
-  ALL = 'ALL',
+  ALL_EXCHANGED = 'ALL_EXCHANGED',
 }
 
 interface IUser {
@@ -78,33 +89,17 @@ interface IUser {
   hasCarPreference: boolean;
 }
 
-export interface IGetCarsAnswer {
-  totalElements: number;
-  totalPages: number;
-  size: number;
-  content: ICar[];
-  number: number;
-  sort: {
-    empty: boolean;
-    sorted: boolean;
-    unsorted: boolean;
-  };
-  pageable: {
-    offset: number;
-    sort: {
-      empty: boolean;
-      sorted: boolean;
-      unsorted: boolean;
-    };
-    pageNumber: number;
-    pageSize: number;
-    paged: boolean;
-    unpaged: boolean;
-  };
-  numberOfElements: number;
-  first: boolean;
-  last: boolean;
-  empty: boolean;
+export enum likeType {
+  LIKE = 'LIKE',
+  DISLIKE = 'DISLIKE',
+}
 
-  id: string;
+export interface ILike {
+  likeType: likeType;
+  carID: string;
+}
+
+export interface IChangeExchange {
+  isExchange: boolean;
+  carID: string;
 }

@@ -30,9 +30,10 @@ requestService.interceptors.response.use(
     const originalRequest = error.config;
     console.log(!!error.config);
     if (
-      (error.response?.status == 401 || error.response?.status == 400) &&
+      error.response?.status == 401 &&
+      getAccessToken() &&
       error.config &&
-      // error.response?.data.Exception === 'TokenExpiredException' &&
+      error.response?.data.Exception === 'TokenExpiredException' &&
       !originalRequest._retry
     ) {
       console.log(originalRequest._retry);
@@ -41,7 +42,7 @@ requestService.interceptors.response.use(
         const response = await requestService.post<IAuthResponse>(
           `${serverURL}/auth/refresh`,
         );
-        setAccessToken(response.data.accessToken);
+        setAccessToken(response.data.access_token);
         setLocalUserID(response.data.userId);
         return await requestService.request(originalRequest);
       } catch (e) {

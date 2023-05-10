@@ -7,10 +7,10 @@ import type {
 } from '@features/auth/auth.entity';
 
 export const login = async (
-  email: string,
+  username: string,
   password: string,
 ): Promise<AxiosResponse<IAuthResponse>> => {
-  return await requestService.post('/auth/login', { email, password });
+  return await requestService.post('auth/login', { username, password });
 };
 
 export const register = async (
@@ -23,4 +23,8 @@ export const register = async (
 
 export const getUserInfo = async (): Promise<AxiosResponse<CurrentUser>> => {
   return await requestService.get('/users/me');
+};
+
+export const verifyUser = async (verificationToken: string): Promise<AxiosResponse> => {
+  return await requestService.post(`/users/verify/${verificationToken}`);
 };
