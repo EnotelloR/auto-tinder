@@ -8,3 +8,19 @@ export interface IProfile {
   hasCar: boolean;
   hasCarPreference: boolean;
 }
+
+export interface ICarPreference {
+  city: number[];
+  priceStart: number;
+  priceFinish: number;
+  brands: number[];
+  // models: number[];
+  bodies: number[];
+  gearboxes: number[];
+  engines: number[];
+  drives: number[];
+  manufacturedAtStart: number;
+  manufacturedAtFinish: number;
+  mileageStart: number;
+  mileageFinish: number;
+}

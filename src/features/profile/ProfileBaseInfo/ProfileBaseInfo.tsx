@@ -12,14 +12,14 @@ type ProfileBaseInfoProps = {
 };
 export const ProfileBaseInfo = (props: ProfileBaseInfoProps) => {
   const { data: cars, isSuccess } = useCars(CarFilters.CURRENT_USER);
-  const [changeMode, setChangeMode] = useState(false);
+  const [changeMode, setChangeMode] = useState(true);
   const exchangeCar = useMemo(() => {
     if (isSuccess) return cars.find((car) => car.isExchanged);
   }, [cars]);
   return (
     <Paper sx={{ borderRadius: '1em', my: 2, p: 3 }}>
       <Typography variant={'h5'}></Typography>
-      {!changeMode ? (
+      {changeMode ? (
         <Stack justifyContent={'center'} gap={'0.5em'}>
           <Stack flexDirection={'row'} alignItems={'center'} gap={'1em'}>
             <Typography variant={'body1'} fontSize={'1.5em'} width={'5em'}>
@@ -67,7 +67,7 @@ export const ProfileBaseInfo = (props: ProfileBaseInfoProps) => {
             size={'large'}
             onClick={() => setChangeMode((prevState) => !prevState)}
           >
-            Поменять данные
+            Сохранить
           </Button>
         ) : (
           <Button
@@ -75,7 +75,7 @@ export const ProfileBaseInfo = (props: ProfileBaseInfoProps) => {
             size={'large'}
             onClick={() => setChangeMode((prevState) => !prevState)}
           >
-            Сохранить
+            Поменять данные
           </Button>
         )}
       </Stack>
