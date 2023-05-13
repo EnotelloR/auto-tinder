@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react';
+import { useEffect, useMemo } from 'react';
 import { Box, Button, Paper, Stack, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import type { ICarPreference } from '@features/profile/profile.entity';
@@ -18,11 +19,18 @@ export const ProfileSelectPreferences = () => {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm<ICarPreference>({
     resolver: yupResolver(carPreferenceSchema),
-    defaultValues: preference.data,
+    defaultValues: useMemo(() => {
+      return preference.data;
+    }, [preference.data]),
   });
+
+  useEffect(() => {
+    reset(preference.data);
+  }, [preference.data]);
 
   const alert = useAlert();
 
@@ -56,6 +64,7 @@ export const ProfileSelectPreferences = () => {
                   : 'Минимальная цена'
               }
               sx={{ flex: 1 }}
+              InputLabelProps={{ shrink: true }}
             />
             <TextField
               {...register('priceFinish', { required: true })}
@@ -66,6 +75,7 @@ export const ProfileSelectPreferences = () => {
                   : 'Максимальная цена'
               }
               sx={{ flex: 1 }}
+              InputLabelProps={{ shrink: true }}
             />
           </Stack>
           <Stack flexDirection={'row'} px={4} gap={4}>
@@ -132,6 +142,7 @@ export const ProfileSelectPreferences = () => {
                   : 'Минимальный год выпуска'
               }
               sx={{ flex: 1 }}
+              InputLabelProps={{ shrink: true }}
             />
             <TextField
               {...register('manufacturedAtFinish', { required: true })}
@@ -142,6 +153,7 @@ export const ProfileSelectPreferences = () => {
                   : 'Максимальный год выпуска'
               }
               sx={{ flex: 1 }}
+              InputLabelProps={{ shrink: true }}
             />
           </Stack>
           <Stack flexDirection={'row'} px={4} gap={4}>
@@ -154,6 +166,7 @@ export const ProfileSelectPreferences = () => {
                   : 'Минимальный пробег (км.)'
               }
               sx={{ flex: 1 }}
+              InputLabelProps={{ shrink: true }}
             />
             <TextField
               {...register('mileageFinish', { required: true })}
@@ -164,6 +177,7 @@ export const ProfileSelectPreferences = () => {
                   : 'Максимальный пробег (км.)'
               }
               sx={{ flex: 1 }}
+              InputLabelProps={{ shrink: true }}
             />
           </Stack>
           <Box mx={'auto'}>

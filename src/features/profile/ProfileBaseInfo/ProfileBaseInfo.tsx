@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Box, Button, Paper, Stack, TextField, Typography } from '@mui/material';
 import { useCars } from '@features/cars/cars.hooks';
 import { CarFilters } from '@features/cars';
@@ -12,10 +12,7 @@ type ProfileBaseInfoProps = {
 };
 export const ProfileBaseInfo = (props: ProfileBaseInfoProps) => {
   const { data: cars, isSuccess } = useCars(CarFilters.CURRENT_USER);
-  const [changeMode, setChangeMode] = useState(true);
-  const exchangeCar = useMemo(() => {
-    if (isSuccess) return cars.find((car) => car.isExchanged);
-  }, [cars]);
+  const [changeMode, setChangeMode] = useState(false);
   return (
     <Paper sx={{ borderRadius: '1em', my: 2, p: 3 }}>
       <Typography variant={'h5'}></Typography>

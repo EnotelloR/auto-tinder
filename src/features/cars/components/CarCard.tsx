@@ -89,9 +89,6 @@ export const CarCard: React.FC<CarCardProps> = ({
               <Typography variant="body2" color="text.secondary">
                 Стоимость: {car.price} тыс. руб.
               </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Лайки: {car.totalLikes ?? 0}
-              </Typography>
             </>
           )}
         </CardContent>

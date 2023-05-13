@@ -24,3 +24,13 @@ export interface ICarPreference {
   mileageStart: number;
   mileageFinish: number;
 }
+
+export interface IDriverLicense {
+  birthdate: Date;
+  birthPlace: string;
+  issuedAt: Date;
+  validityPeriod: number;
+  divisionName: string;
+  passportNumber: string;
+  driveCategory: string;
+}

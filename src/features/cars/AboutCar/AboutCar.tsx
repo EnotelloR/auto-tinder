@@ -27,7 +27,7 @@ export const AboutCar = ({ carID }: AboutCarProps) => {
         <Box
           component="img"
           alt={'Фотография автомобиля'}
-          src={car.photos[0].photoLink ?? ''}
+          src={car.photos ? car.photos[0].photoLink : ''}
         />
         <Box
           sx={{

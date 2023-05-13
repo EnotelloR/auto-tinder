@@ -1,8 +1,14 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import type { ICarPreference, IProfile } from '@features/profile/profile.entity';
+import type {
+  ICarPreference,
+  IDriverLicense,
+  IProfile,
+} from '@features/profile/profile.entity';
 import {
+  getDriverLicense,
   getPreferences,
   getProfile,
+  postDriverLicense,
   postPreference,
 } from '@features/profile/profile.service';
 
@@ -23,6 +29,21 @@ export const useAddPreference = () => {
   return useMutation({
     mutationFn: async (preference: ICarPreference) => {
       return postPreference(preference);
+    },
+  });
+};
+
+export const useDriverLicense = (userID: string) => {
+  return useQuery<IDriverLicense, Error>(['driveLicense', userID], async () => {
+    const { data: driverLicense } = await getDriverLicense(userID);
+    return driverLicense;
+  });
+};
+
+export const useAddDriveLicense = () => {
+  return useMutation({
+    mutationFn: async (driverLicense: IDriverLicense) => {
+      return postDriverLicense(driverLicense);
     },
   });
 };

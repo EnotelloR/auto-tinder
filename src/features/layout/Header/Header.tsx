@@ -27,6 +27,11 @@ export const Header = () => {
     navigate(routes.profile.path);
     handleClose();
   };
+  const handleGoToRentList = () => {
+    navigate(routes.rentList.path);
+    handleClose();
+  };
+
   return (
     <AppBar position={'sticky'}>
       <Toolbar>
@@ -46,11 +51,7 @@ export const Header = () => {
             Поиск аренды
           </Button>
         </Box>
-        <Box>
-          <Button>Вы лайкали</Button>
-          <Button>Мои лайки</Button>
-          <Button>Совпадения</Button>
-        </Box>
+        <Box></Box>
         {!isAuth ? (
           <Box>
             <Button
@@ -96,6 +97,9 @@ export const Header = () => {
               onClose={handleClose}
             >
               <MenuItem onClick={handleGoToProfile}>Профиль</MenuItem>
+              <MenuItem onClick={handleGoToRentList}>Запросы на аренду</MenuItem>
+              <MenuItem>Мои лайки</MenuItem>
+              <MenuItem>Совпадения</MenuItem>
               <MenuItem onClick={handleLogOut}>Выйти</MenuItem>
             </Menu>
           </Box>

@@ -11,6 +11,7 @@ import { CarAllExchangedScreen } from '@screens/CarAllExchangedScreen';
 import { AboutCarScreen } from '@screens/AboutCarScreen';
 import { ProfileScreen } from '@screens/ProfileScreen';
 import { RentCarsScreen } from '@screens/RentCarsScreen';
+import { RentRequests } from '@screens/RentRequests';
 
 export const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ export const router = createBrowserRouter([
       {
         path: routes.rentCars.path,
         element: <RentCarsScreen />,
+      },
+      {
+        path: routes.rentList.path,
+        element: <RentRequests />,
       },
     ],
   },
