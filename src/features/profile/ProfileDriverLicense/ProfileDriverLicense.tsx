@@ -136,7 +136,7 @@ export const ProfileDriverLicense = ({ userID }: ProfileDriverLicenseProps) => {
                   }}
                   sx={{ flex: 1 }}
                 >
-                  {['А', 'B', 'C', 'D', 'M'].map((category, index) => (
+                  {['A', 'B', 'C', 'D', 'M'].map((category, index) => (
                     <MenuItem key={index} value={category}>
                       {category}
                     </MenuItem>

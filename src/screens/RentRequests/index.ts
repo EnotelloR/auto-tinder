@@ -1,1 +1,1 @@
-export * from './RentRequests';
+export * from './RentRequestsScreen';

@@ -22,10 +22,8 @@ export const postPreference = async (
   return await requestService.post(`/cars/filters`, preference);
 };
 
-export const getDriverLicense = async (
-  userID: string,
-): Promise<AxiosResponse<IDriverLicense>> => {
-  return await requestService.get(`/users/license/${userID}`);
+export const getDriverLicense = async (): Promise<AxiosResponse<IDriverLicense>> => {
+  return await requestService.get(`/users/license/`);
 };
 
 export const postDriverLicense = async (

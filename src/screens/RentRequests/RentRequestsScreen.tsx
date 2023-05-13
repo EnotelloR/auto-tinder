@@ -4,7 +4,7 @@ import { Box, Paper, Stack, Typography } from '@mui/material';
 import { RentableCar } from '@features/cars/components';
 import type { ICar } from '@features/cars';
 
-export const RentRequests = () => {
+export const RentRequestsScreen = () => {
   const cars = [
     {
       id: '93539b0c-777b-4857-ad02-d78dc3f10b1a',

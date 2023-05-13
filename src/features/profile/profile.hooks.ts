@@ -35,7 +35,7 @@ export const useAddPreference = () => {
 
 export const useDriverLicense = (userID: string) => {
   return useQuery<IDriverLicense, Error>(['driveLicense', userID], async () => {
-    const { data: driverLicense } = await getDriverLicense(userID);
+    const { data: driverLicense } = await getDriverLicense();
     return driverLicense;
   });
 };
