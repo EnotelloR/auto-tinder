@@ -111,6 +111,8 @@ export const RentRequestsScreen = () => {
       city: { id: 14, name: 'Пермь' },
       description: 'Test',
       totalOwners: 1,
+      totalLikes: 0,
+      totalViews: 0,
     },
   ];
   return (
@@ -121,7 +123,12 @@ export const RentRequestsScreen = () => {
       <Paper>
         <Stack gap={'1em'}>
           {cars.map((car, index) => (
-            <RentableCar car={car as ICar} rentHistoryMode={true} status={index} />
+            <RentableCar
+              key={car.id}
+              car={car as unknown as ICar}
+              rentHistoryMode={true}
+              status={index}
+            />
           ))}
         </Stack>
       </Paper>

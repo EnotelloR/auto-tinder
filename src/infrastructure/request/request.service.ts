@@ -43,7 +43,7 @@ requestService.interceptors.response.use(
           `${serverURL}/auth/refresh`,
         );
         setAccessToken(response.data.access_token);
-        setLocalUserID(response.data.userId);
+        setLocalUserID(response.data.user_id);
         return await requestService.request(originalRequest);
       } catch (e) {
         await Promise.reject(e).finally(() => logOut());
