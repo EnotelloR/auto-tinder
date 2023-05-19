@@ -31,6 +31,10 @@ export const Header = () => {
     navigate(routes.rentList.path);
     handleClose();
   };
+  const handleGoToLikes = () => {
+    navigate(routes.likes.path);
+    handleClose();
+  };
 
   return (
     <AppBar position={'sticky'}>
@@ -98,8 +102,7 @@ export const Header = () => {
             >
               <MenuItem onClick={handleGoToProfile}>Профиль</MenuItem>
               <MenuItem onClick={handleGoToRentList}>Запросы на аренду</MenuItem>
-              <MenuItem>Мои лайки</MenuItem>
-              <MenuItem>Совпадения</MenuItem>
+              <MenuItem onClick={handleGoToLikes}>Мои лайки</MenuItem>
               <MenuItem onClick={handleLogOut}>Выйти</MenuItem>
             </Menu>
           </Box>

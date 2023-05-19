@@ -18,12 +18,14 @@ interface CarCardProps {
   car: ICar;
   type: CarFilters;
   noExchangeInCars: boolean;
+  clearView?: boolean;
 }
 
 export const CarCard: React.FC<CarCardProps> = ({
   car,
   type = CarFilters,
   noExchangeInCars,
+  clearView = false,
 }) => {
   const [openDialog, setOpenDialog] = useState(false);
   const { mutate: createLike } = UseLike();
@@ -81,7 +83,7 @@ export const CarCard: React.FC<CarCardProps> = ({
           <Typography gutterBottom variant="h5" component="div">
             {car.brand.name} {car.model.name}
           </Typography>
-          {type !== 'CURRENT_USER' && (
+          {(type !== 'CURRENT_USER' || clearView) && (
             <>
               <Typography variant="body2" color="text.secondary">
                 Год выпуска: {car.manufacturedAt}
@@ -89,10 +91,13 @@ export const CarCard: React.FC<CarCardProps> = ({
               <Typography variant="body2" color="text.secondary">
                 Стоимость: {car.price} тыс. руб.
               </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Лайки: {car.totalLikes}
+              </Typography>
             </>
           )}
         </CardContent>
-        {type !== 'CURRENT_USER' && (
+        {type !== 'CURRENT_USER' && !clearView && (
           <CardActions
             sx={{
               display: 'flex',
@@ -122,7 +127,7 @@ export const CarCard: React.FC<CarCardProps> = ({
             </Button>
           </CardActions>
         )}
-        {type === 'CURRENT_USER' && car.isExchanged && (
+        {type === 'CURRENT_USER' && car.isExchanged && !clearView && (
           <CardActions
             sx={{
               display: 'flex',

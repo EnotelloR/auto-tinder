@@ -4,6 +4,7 @@ import type {
   IDriverLicense,
   IProfile,
 } from '@features/profile/profile.entity';
+import type { ICarGetPreference } from '@features/profile/profile.entity';
 import {
   getDriverLicense,
   getPreferences,
@@ -19,7 +20,7 @@ export const useProfile = (userID: string) => {
   });
 };
 export const usePreference = () => {
-  return useQuery<ICarPreference, Error>(['preference'], async () => {
+  return useQuery<ICarGetPreference, Error>(['preference'], async () => {
     const { data: preference } = await getPreferences();
     return preference;
   });

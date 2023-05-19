@@ -10,4 +10,5 @@ export const routes = {
   profile: { name: 'Профиль', path: '/profile' },
   rentCars: { name: 'Машины в аренду', path: '/rent-car' },
   rentList: { name: 'Список аренды', path: '/rent-list' },
+  likes: { name: 'Лайки', path: '/likes' },
 };

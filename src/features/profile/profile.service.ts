@@ -5,6 +5,7 @@ import type {
   IDriverLicense,
   IProfile,
 } from '@features/profile/profile.entity';
+import type { ICarGetPreference } from '@features/profile/profile.entity';
 
 export const getProfile = async (userID: string): Promise<AxiosResponse<IProfile>> => {
   return await requestService.get(`/users/search`, {
@@ -12,7 +13,7 @@ export const getProfile = async (userID: string): Promise<AxiosResponse<IProfile
   });
 };
 
-export const getPreferences = async (): Promise<AxiosResponse<ICarPreference>> => {
+export const getPreferences = async (): Promise<AxiosResponse<ICarGetPreference>> => {
   return await requestService.get(`/cars/filters`);
 };
 

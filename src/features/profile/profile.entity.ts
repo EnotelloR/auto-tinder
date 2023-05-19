@@ -25,6 +25,10 @@ export interface ICarPreference {
   mileageFinish: number;
 }
 
+export interface ICarGetPreference extends ICarPreference {
+  id: string;
+}
+
 export interface IDriverLicense {
   birthdate: Date;
   birthPlace: string;

@@ -12,6 +12,7 @@ import { AboutCarScreen } from '@screens/AboutCarScreen';
 import { ProfileScreen } from '@screens/ProfileScreen';
 import { RentCarsScreen } from '@screens/RentCarsScreen';
 import { RentRequestsScreen } from '@screens/RentRequests';
+import { LikesScreen } from '@screens/LikesScreen';
 
 export const router = createBrowserRouter([
   {
@@ -51,6 +52,10 @@ export const router = createBrowserRouter([
       {
         path: routes.rentList.path,
         element: <RentRequestsScreen />,
+      },
+      {
+        path: routes.likes.path,
+        element: <LikesScreen />,
       },
     ],
   },

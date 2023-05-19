@@ -24,12 +24,12 @@ export const ProfileSelectPreferences = () => {
   } = useForm<ICarPreference>({
     resolver: yupResolver(carPreferenceSchema),
     defaultValues: useMemo(() => {
-      return preference.data;
+      return preference.data as ICarPreference;
     }, [preference.data]),
   });
 
   useEffect(() => {
-    reset(preference.data);
+    reset(preference.data as ICarPreference);
   }, [preference.data]);
 
   const alert = useAlert();
