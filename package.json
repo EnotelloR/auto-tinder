@@ -8,7 +8,8 @@
     "preview": "vite preview",
     "lint": "npm run lint:format & npm run lint:fix",
     "lint:fix": "eslint ./src --ext .jsx,.js,.ts,.tsx --fix --ignore-path ./.gitignore",
-    "lint:format": "prettier --write \"./**/*.{js,jsx,ts,tsx,css,md,json}\" "
+    "lint:format": "prettier --write \"./**/*.{js,jsx,ts,tsx,css,md,json}\" ",
+    "start": "serve dist -s -n -L -p $PORT"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
