@@ -47,7 +47,6 @@ export const RentableCar = ({
           {car.brand.name} {car.model.name}
         </Typography>
         <Typography flex={1}>
-          {' '}
           Цена: {(car.price / 100).toFixed()} рублей / сутки
         </Typography>
         {!rentHistoryMode ? (
@@ -73,6 +72,8 @@ export const RentableCar = ({
         open={openModal}
         handleClose={() => setOpenModal(false)}
         handleSentRequest={sendRequest}
+        carID={car.id}
+        price={car.price}
       />
     </Paper>
   );

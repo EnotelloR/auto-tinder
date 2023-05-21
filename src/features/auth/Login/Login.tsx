@@ -41,7 +41,7 @@ export const Login = () => {
           location.state?.from ? navigate(location.state.from) : navigate('/');
         })
         .catch((error) => {
-          if (error.response.data.status === 'NOT_FOUND')
+          if (error.code === 'ERR_BAD_REQUEST')
             setWarningMessage('Такого пользователя не существует!');
           else if (error.response.data.Reason === 'User account is locked')
             setWarningMessage(

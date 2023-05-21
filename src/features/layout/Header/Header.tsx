@@ -48,10 +48,16 @@ export const Header = () => {
               Мой гараж
             </Button>
           )}
-          <Button component={RouterLink} to={routes.allExchangedCarsScreen.path}>
+          <Button
+            component={RouterLink}
+            to={isAuth ? routes.allExchangedCarsScreen.path : routes.login.path}
+          >
             Искать авто
           </Button>
-          <Button component={RouterLink} to={routes.rentCars.path}>
+          <Button
+            component={RouterLink}
+            to={isAuth ? routes.rentCars.path : routes.login.path}
+          >
             Поиск аренды
           </Button>
         </Box>

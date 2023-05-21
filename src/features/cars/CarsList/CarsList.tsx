@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import { Container, Paper, Typography } from '@mui/material';
-import { useCars } from '@features/cars/cars.hooks';
 import { CarCard } from '@features/cars/components/CarCard';
 import type { CarFilters, ICar } from '@features/cars';
 

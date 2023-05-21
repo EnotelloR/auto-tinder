@@ -103,3 +103,12 @@ export interface IChangeExchange {
   isExchange: boolean;
   carID: string;
 }
+
+export interface IRent {
+  rentData: {
+    rentFrom: Date;
+    rentTo: Date;
+    price: number;
+  };
+  carID: string;
+}

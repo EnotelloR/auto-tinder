@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Box, Button, Paper, Stack, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import type { ICarPreference } from '@features/profile/profile.entity';
@@ -9,10 +9,11 @@ import { carPreferenceSchema } from '@features/profile/ProfileSelectPreferences/
 import { PreferenceSelect } from '@features/profile/ProfileSelectPreferences/components';
 import { useDetails } from '@features/cars/cars.hooks';
 import { DetailsTypes } from '@features/cars';
-import { useAddPreference, usePreference } from '@features/profile';
+import { useAddPreference, usePatchPreference, usePreference } from '@features/profile';
 import { useAlert } from '@features/alert';
 
 export const ProfileSelectPreferences = () => {
+  const [preferenceExists, setPreferenceExists] = useState(false);
   const preference = usePreference();
 
   const {
@@ -30,6 +31,7 @@ export const ProfileSelectPreferences = () => {
 
   useEffect(() => {
     reset(preference.data as ICarPreference);
+    preference.data && setPreferenceExists(true);
   }, [preference.data]);
 
   const alert = useAlert();
@@ -40,14 +42,23 @@ export const ProfileSelectPreferences = () => {
   const bodies = useDetails(DetailsTypes.BODY);
   const drives = useDetails(DetailsTypes.DRIVE);
   const cities = useDetails(DetailsTypes.CITY);
-  const { mutateAsync } = useAddPreference();
+  const { mutateAsync: postPreference } = useAddPreference();
+  const { mutateAsync: pathPreference } = usePatchPreference();
 
   const onSubmit = (data: ICarPreference) => {
-    mutateAsync(data)
-      .then(() =>
-        alert({ text: 'Вы успешно добавили предпочтение!', severity: 'success' }),
-      )
-      .catch((error) => alert({ text: error.message, severity: 'error' }));
+    if (!preferenceExists) {
+      postPreference(data)
+        .then(() =>
+          alert({ text: 'Вы успешно добавили предпочтение!', severity: 'success' }),
+        )
+        .catch((error) => alert({ text: error.message, severity: 'error' }));
+    } else {
+      pathPreference(data)
+        .then(() =>
+          alert({ text: 'Вы успешно изменили предпочтение!', severity: 'success' }),
+        )
+        .catch((error) => alert({ text: error.message, severity: 'error' }));
+    }
   };
 
   return (

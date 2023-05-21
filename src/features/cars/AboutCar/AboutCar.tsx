@@ -27,7 +27,7 @@ export const AboutCar = ({ carID }: AboutCarProps) => {
         <Box
           component="img"
           alt={'Фотография автомобиля'}
-          src={car.photos ? car.photos[0].photoLink : ''}
+          src={car.photos ? car.photos[0].photoLink : 'images/car-plug.webp'}
         />
         <Box
           sx={{
@@ -80,17 +80,13 @@ export const AboutCar = ({ carID }: AboutCarProps) => {
             <Typography variant={'body1'}>Пробег: {car.mileage} км.</Typography>
             <Typography variant={'body1'}>Владельцев: {car.totalOwners}</Typography>
           </Box>
-          <Box display={'flex'} flexDirection={'column'} alignItems={'end'} flex={1}>
-            <Typography textAlign={'end'} variant={'h4'}>
-              Контактное лицо:
-            </Typography>
-            <Typography textAlign={'end'} variant={'body1'}>
-              Имя: {car.user.name}
-            </Typography>
-            <Typography textAlign={'end'} variant={'body1'}>
+          <Box display={'flex'} flexDirection={'column'} flex={1}>
+            <Typography variant={'h4'}>Контактное лицо:</Typography>
+            <Typography variant={'body1'}>Имя: {car.user.name}</Typography>
+            <Typography variant={'body1'}>
               Номер телефона: {car.user.phone ?? 'не указан'}
             </Typography>
-            <Typography textAlign={'end'} variant={'body1'}>
+            <Typography variant={'body1'}>
               Почтовый адрес: {car.user.email ?? 'не указан'}
             </Typography>
           </Box>

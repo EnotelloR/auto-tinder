@@ -1,15 +1,16 @@
 import type { AxiosResponse } from 'axios';
 import { requestService } from '@infrastructure/request';
 import type {
+  CarFilters,
   DetailsTypes,
   IAboutCar,
+  ICar,
   ICarCreate,
   ICarDetail,
+  IChangeExchange,
   ILike,
+  IRent,
 } from '@features/cars/cars.entity';
-import type { CarFilters } from '@features/cars/cars.entity';
-import type { ICar } from '@features/cars/cars.entity';
-import type { IChangeExchange } from '@features/cars/cars.entity';
 
 export const createCar = async (
   newCar: ICarCreate,
@@ -42,6 +43,13 @@ export const getCars = async (
   return await requestService.get(`/cars/search`, { params: { carFilter, page, size } });
 };
 
+export const getTinderCars = async (
+  page?: number,
+  size?: number,
+): Promise<AxiosResponse<ICar[]>> => {
+  return await requestService.get(`/cars/tinder`, { params: { page, size } });
+};
+
 export const getCar = async (carID: string): Promise<AxiosResponse<IAboutCar>> => {
   return await requestService.get(`/cars/${carID}`);
 };
@@ -71,5 +79,10 @@ export const changeExchange = async (
 ): Promise<AxiosResponse> => {
   return await requestService.patch(`/cars/${exchange.carID}`, {
     isExchanged: exchange.isExchange,
+  });
+};
+export const rentCar = async (rent: IRent): Promise<AxiosResponse> => {
+  return await requestService.patch(`/cars/${rent.carID}`, {
+    ...rent.rentData,
   });
 };

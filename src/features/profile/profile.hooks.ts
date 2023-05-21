@@ -1,14 +1,15 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
+  ICarGetPreference,
   ICarPreference,
   IDriverLicense,
   IProfile,
 } from '@features/profile/profile.entity';
-import type { ICarGetPreference } from '@features/profile/profile.entity';
 import {
   getDriverLicense,
   getPreferences,
   getProfile,
+  patchPreference,
   postDriverLicense,
   postPreference,
 } from '@features/profile/profile.service';
@@ -30,6 +31,14 @@ export const useAddPreference = () => {
   return useMutation({
     mutationFn: async (preference: ICarPreference) => {
       return postPreference(preference);
+    },
+  });
+};
+
+export const usePatchPreference = () => {
+  return useMutation({
+    mutationFn: async (preference: ICarPreference) => {
+      return patchPreference(preference);
     },
   });
 };

@@ -6,22 +6,32 @@ import {
   getCar,
   getCars,
   getDetails,
+  getTinderCars,
   likeCar,
+  rentCar,
 } from '@features/cars/cars.service';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type {
   DetailsTypes,
+  ICar,
   ICarCreate,
   ICarDetail,
+  IChangeExchange,
   ILike,
-  ICar,
+  IRent,
 } from '@features/cars/cars.entity';
 import { CarFilters } from '@features/cars/cars.entity';
-import type { IChangeExchange } from '@features/cars/cars.entity';
 
 export const useCars = (type: CarFilters) => {
   return useQuery<ICar[], Error>([type], async () => {
     const { data: myCars } = await getCars(type);
+    return myCars;
+  });
+};
+
+export const useTinderCars = () => {
+  return useQuery<ICar[], Error>(['tinder'], async () => {
+    const { data: myCars } = await getTinderCars();
     return myCars;
   });
 };
@@ -96,6 +106,14 @@ export const useChangeExchange = () => {
       console.log('Запускаю инвалидацию');
       queryClient.invalidateQueries([CarFilters.CURRENT_USER]);
       queryClient.invalidateQueries([CarFilters.ALL_EXCHANGED]);
+    },
+  });
+};
+
+export const UseRent = () => {
+  return useMutation({
+    mutationFn: async (rent: IRent) => {
+      return rentCar(rent);
     },
   });
 };

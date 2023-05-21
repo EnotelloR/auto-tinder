@@ -13,6 +13,7 @@ import { useChangeExchange, UseLike } from '@features/cars/cars.hooks';
 import { ConfirmDialog } from '@features/layout/ConfirmDialog';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '@infrastructure/routing';
+import { useAuthStore } from '@features/auth/auth.hooks';
 
 interface CarCardProps {
   car: ICar;
@@ -31,11 +32,21 @@ export const CarCard: React.FC<CarCardProps> = ({
   const { mutate: createLike } = UseLike();
   const { mutate: changeExchange } = useChangeExchange();
 
+  const isAuth = useAuthStore((state) => state.isAuth);
+
   const submitLike = () => {
-    createLike({ likeType: likeType.LIKE, carID: car.id.toString() });
+    isAuth
+      ? createLike({ likeType: likeType.LIKE, carID: car.id.toString() })
+      : navigate({
+          pathname: routes.login.path,
+        });
   };
   const submitDislike = () => {
-    createLike({ likeType: likeType.DISLIKE, carID: car.id.toString() });
+    isAuth
+      ? createLike({ likeType: likeType.DISLIKE, carID: car.id.toString() })
+      : navigate({
+          pathname: routes.login.path,
+        });
   };
 
   const handleChangeExchange = () => {
@@ -64,6 +75,7 @@ export const CarCard: React.FC<CarCardProps> = ({
           boxShadow: '0 0 2px white',
           minWidth: '21em',
           cursor: 'pointer',
+          minHeight: '18em',
         }}
       >
         <CardMedia
@@ -90,9 +102,6 @@ export const CarCard: React.FC<CarCardProps> = ({
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Стоимость: {car.price} тыс. руб.
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Лайки: {car.totalLikes}
               </Typography>
             </>
           )}
@@ -132,14 +141,13 @@ export const CarCard: React.FC<CarCardProps> = ({
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              alignItems: 'flex-end',
               padding: '1rem',
               gap: '1rem',
             }}
           >
             <Button
               variant={'contained'}
-              size="small"
+              size="large"
               color={'primary'}
               onClick={() => setOpenDialog(true)}
             >
