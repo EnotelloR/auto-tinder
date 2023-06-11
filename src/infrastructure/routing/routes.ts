@@ -11,4 +11,6 @@ export const routes = {
   rentCars: { name: 'Машины в аренду', path: '/rent-car' },
   rentList: { name: 'Список аренды', path: '/rent-list' },
   likes: { name: 'Лайки', path: '/likes' },
+  feedback: { name: 'Отзыв', path: '/feedback' },
+  history: { name: 'История', path: '/history' },
 };

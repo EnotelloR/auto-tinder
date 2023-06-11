@@ -13,6 +13,8 @@ import { ProfileScreen } from '@screens/ProfileScreen';
 import { RentCarsScreen } from '@screens/RentCarsScreen';
 import { RentRequestsScreen } from '@screens/RentRequests';
 import { LikesScreen } from '@screens/LikesScreen';
+import { FeedbackScreen } from '@screens/FeedbackScreen/FeedbackScreen';
+import { HistoryScreen } from '@screens/HistoryScreen';
 
 export const router = createBrowserRouter([
   {
@@ -56,6 +58,14 @@ export const router = createBrowserRouter([
       {
         path: routes.likes.path,
         element: <LikesScreen />,
+      },
+      {
+        path: routes.feedback.path,
+        element: <FeedbackScreen />,
+      },
+      {
+        path: routes.history.path,
+        element: <HistoryScreen />,
       },
     ],
   },

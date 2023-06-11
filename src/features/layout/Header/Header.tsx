@@ -31,6 +31,10 @@ export const Header = () => {
     navigate(routes.rentList.path);
     handleClose();
   };
+  const handleGoToHistory = () => {
+    navigate(routes.history.path);
+    handleClose();
+  };
   const handleGoToLikes = () => {
     navigate(routes.likes.path);
     handleClose();
@@ -108,6 +112,7 @@ export const Header = () => {
             >
               <MenuItem onClick={handleGoToProfile}>Профиль</MenuItem>
               <MenuItem onClick={handleGoToRentList}>Запросы на аренду</MenuItem>
+              <MenuItem onClick={handleGoToHistory}>История</MenuItem>
               <MenuItem onClick={handleGoToLikes}>Мои лайки</MenuItem>
               <MenuItem onClick={handleLogOut}>Выйти</MenuItem>
             </Menu>

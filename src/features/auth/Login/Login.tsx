@@ -41,12 +41,14 @@ export const Login = () => {
           location.state?.from ? navigate(location.state.from) : navigate('/');
         })
         .catch((error) => {
-          if (error.code === 'ERR_BAD_REQUEST')
-            setWarningMessage('Такого пользователя не существует!');
-          else if (error.response.data.Reason === 'User account is locked')
-            setWarningMessage(
-              'Активируйте свою учётную запись по ссылке, которую мы вам отправили на электронную почту!',
-            );
+          if (error.code === 'ERR_BAD_REQUEST') {
+            if (error.response.data.message === 'Credentials Do Not Match')
+              setWarningMessage('Такого пользователя не существует!');
+            else if (error.response.data.message === 'Account Locked')
+              setWarningMessage(
+                'Активируйте свою учётную запись по ссылке, которую мы вам отправили на электронную почту!',
+              );
+          } else console.log(error);
         });
     } catch (e) {
       console.log(e);

@@ -14,12 +14,14 @@ import { ConfirmDialog } from '@features/layout/ConfirmDialog';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '@infrastructure/routing';
 import { useAuthStore } from '@features/auth/auth.hooks';
+import { Criteria } from '@features/feedback/feedback.entity';
 
 interface CarCardProps {
   car: ICar;
   type: CarFilters;
   noExchangeInCars: boolean;
   clearView?: boolean;
+  historyView?: boolean;
 }
 
 export const CarCard: React.FC<CarCardProps> = ({
@@ -27,12 +29,14 @@ export const CarCard: React.FC<CarCardProps> = ({
   type = CarFilters,
   noExchangeInCars,
   clearView = false,
+  historyView = false,
 }) => {
   const [openDialog, setOpenDialog] = useState(false);
   const { mutate: createLike } = UseLike();
   const { mutate: changeExchange } = useChangeExchange();
 
   const isAuth = useAuthStore((state) => state.isAuth);
+  const currentUserID = useAuthStore((state) => state.userID);
 
   const submitLike = () => {
     isAuth
@@ -61,10 +65,25 @@ export const CarCard: React.FC<CarCardProps> = ({
   const navigate = useNavigate();
 
   const openCarScreen = () => {
-    navigate({
-      pathname: routes.aboutCar.path,
-      search: `?carID=${car.id}`,
-    });
+    isAuth
+      ? navigate(routes.aboutCar.path, {
+          state: {
+            carID: car.id,
+            disableLikes: car.user.id === currentUserID,
+          },
+        })
+      : navigate(routes.login.path);
+  };
+  const openFeedbackScreen = () => {
+    isAuth
+      ? navigate(routes.feedback.path, {
+          state: {
+            carId: car.id,
+            userId: car.user.id,
+            criteria: Criteria.Car,
+          },
+        })
+      : navigate(routes.login.path);
   };
 
   return (
@@ -82,7 +101,7 @@ export const CarCard: React.FC<CarCardProps> = ({
           sx={{ height: 140 }}
           image={car.photos ? car.photos[0].photoLink : 'images/car-plug.webp'}
           title="green iguana"
-          onClick={openCarScreen}
+          onClick={historyView ? openFeedbackScreen : openCarScreen}
         />
         <CardContent
           sx={{
@@ -90,7 +109,7 @@ export const CarCard: React.FC<CarCardProps> = ({
             flexDirection: 'column',
             gap: '1rem',
           }}
-          onClick={openCarScreen}
+          onClick={historyView ? openFeedbackScreen : openCarScreen}
         >
           <Typography gutterBottom variant="h5" component="div">
             {car.brand.name} {car.model.name}

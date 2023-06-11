@@ -7,6 +7,6 @@ export const VerifyScreen = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
   const navigate = useNavigate();
-  !token && navigate(routes.main.path);
+  !token && navigate(routes.login.path);
   return <>{token && <Verify token={token} />}</>;
 };

@@ -6,6 +6,8 @@ import { Box, Button, Paper, Rating, Stack, Typography } from '@mui/material';
 import { CarAddRentalModal } from '@features/cars/components/CarAddRentalModal';
 import { useAlert } from '@features/alert';
 import { Cancel, Done, HourglassBottom } from '@mui/icons-material';
+import { routes } from '@infrastructure/routing';
+import { useNavigate } from 'react-router-dom';
 
 type RentableCarProps = {
   car: ICar;
@@ -26,6 +28,17 @@ export const RentableCar = ({
     alert({ text: 'Запрос успешно отправлен!', severity: 'success' });
     setOpenModal(false);
   };
+
+  const navigate = useNavigate();
+
+  const openCarScreen = () => {
+    navigate(routes.aboutCar.path, {
+      state: {
+        carID: car.id,
+        disableLikes: true,
+      },
+    });
+  };
   return (
     <Paper>
       <Stack
@@ -42,6 +55,8 @@ export const RentableCar = ({
           flex={1}
           maxWidth={'10em'}
           borderRadius={'1em'}
+          onClick={openCarScreen}
+          sx={{ cursor: 'pointer' }}
         />
         <Typography flex={1}>
           {car.brand.name} {car.model.name}

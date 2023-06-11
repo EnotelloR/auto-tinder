@@ -1,14 +1,28 @@
 // @flow
 import * as React from 'react';
+import { useState } from 'react';
 import { useCar, UseLike } from '@features/cars/cars.hooks';
 import { Box, Button, Paper, Stack, Typography } from '@mui/material';
 import { likeType } from '@features/cars';
+import { useAlert } from '@features/alert';
+import { useFeedbacks } from '@features/feedback/feedback.hooks';
+import { FeedbackType } from '@features/feedback/feedback.entity';
+import { CarFeedback } from '@features/cars/AboutCar/components';
+import { sendIssue } from '@features/cars/cars.service';
+import { IssueModal } from '@features/cars/IssueModal';
 
 type AboutCarProps = {
   carID: string;
+  disableLikes?: boolean;
 };
-export const AboutCar = ({ carID }: AboutCarProps) => {
+export const AboutCar = ({ carID, disableLikes }: AboutCarProps) => {
   const { mutate: createLike } = UseLike();
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleModalClose = () => setModalOpen(false);
+  const handleModalOpen = () => setModalOpen(true);
+
+  const alert = useAlert();
 
   const submitLike = () => {
     createLike({ likeType: likeType.LIKE, carID });
@@ -18,6 +32,15 @@ export const AboutCar = ({ carID }: AboutCarProps) => {
   };
 
   const { data: car, isSuccess } = useCar(carID);
+
+  const { data: feedbacks } = useFeedbacks(carID, FeedbackType.CAR);
+
+  const sendAppealHandler = () => {
+    sendIssue(carID, '').then(() =>
+      alert({ text: 'Жалоба успешно отправлена!', severity: 'success' }),
+    );
+  };
+
   return isSuccess ? (
     <Paper>
       <Stack gap={'1em'} px={'5em'} py={'1em'}>
@@ -29,35 +52,37 @@ export const AboutCar = ({ carID }: AboutCarProps) => {
           alt={'Фотография автомобиля'}
           src={car.photos ? car.photos[0].photoLink : 'images/car-plug.webp'}
         />
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            paddingTop: '1rem',
-            gap: '2em',
-            width: '100%',
-          }}
-        >
-          <Button
-            variant={'contained'}
-            color={'success'}
-            size="small"
-            onClick={submitLike}
-            sx={{ flex: 1 }}
+        {!disableLikes && (
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingTop: '1rem',
+              gap: '2em',
+              width: '100%',
+            }}
           >
-            Нравится
-          </Button>
-          <Button
-            variant={'contained'}
-            color={'error'}
-            size="small"
-            onClick={submitDislike}
-            sx={{ flex: 1 }}
-          >
-            Не нравится
-          </Button>
-        </Box>
+            <Button
+              variant={'contained'}
+              color={'success'}
+              size="small"
+              onClick={submitLike}
+              sx={{ flex: 1 }}
+            >
+              Нравится
+            </Button>
+            <Button
+              variant={'contained'}
+              color={'error'}
+              size="small"
+              onClick={submitDislike}
+              sx={{ flex: 1 }}
+            >
+              Не нравится
+            </Button>
+          </Box>
+        )}
         <Stack
           flexDirection={'row'}
           justifyContent={'space-between'}
@@ -80,7 +105,7 @@ export const AboutCar = ({ carID }: AboutCarProps) => {
             <Typography variant={'body1'}>Пробег: {car.mileage} км.</Typography>
             <Typography variant={'body1'}>Владельцев: {car.totalOwners}</Typography>
           </Box>
-          <Box display={'flex'} flexDirection={'column'} flex={1}>
+          <Stack flexDirection={'column'} flex={1}>
             <Typography variant={'h4'}>Контактное лицо:</Typography>
             <Typography variant={'body1'}>Имя: {car.user.name}</Typography>
             <Typography variant={'body1'}>
@@ -89,9 +114,26 @@ export const AboutCar = ({ carID }: AboutCarProps) => {
             <Typography variant={'body1'}>
               Почтовый адрес: {car.user.email ?? 'не указан'}
             </Typography>
-          </Box>
+            <Button
+              sx={{ marginTop: '1em' }}
+              variant={'contained'}
+              color={'warning'}
+              size="small"
+              onClick={handleModalOpen}
+            >
+              Пожаловаться на объявление
+            </Button>
+          </Stack>
+        </Stack>
+        <Typography variant={'h4'}>Отзывы:</Typography>
+        <Stack gap={'1em'}>
+          {feedbacks &&
+            feedbacks.map((feedback) => (
+              <CarFeedback key={feedback.commentOwner.userId} feedback={feedback} />
+            ))}
         </Stack>
       </Stack>
+      <IssueModal carID={carID} open={modalOpen} handleClose={handleModalClose} />
     </Paper>
   ) : null;
 };

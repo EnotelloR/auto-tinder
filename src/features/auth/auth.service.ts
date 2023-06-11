@@ -1,8 +1,8 @@
 import type { AxiosResponse } from 'axios';
 import { requestService } from '@infrastructure/request';
 import type {
-  IAuthResponse,
   CurrentUser,
+  IAuthResponse,
   IRegistrationUser,
 } from '@features/auth/auth.entity';
 
@@ -26,5 +26,5 @@ export const getUserInfo = async (): Promise<AxiosResponse<CurrentUser>> => {
 };
 
 export const verifyUser = async (verificationToken: string): Promise<AxiosResponse> => {
-  return await requestService.post(`/users/verify/${verificationToken}`);
+  return await requestService.get(`/users/verify/${verificationToken}`);
 };

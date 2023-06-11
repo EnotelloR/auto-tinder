@@ -23,10 +23,10 @@ export const Verify: React.FC<VerifyProps> = ({ token }) => {
           navigate(routes.login.path);
         },
         () => {
-          alert({
-            text: 'Произошла ошибка при активации аккаунта! Возможно письмо устарело!',
-            severity: 'error',
-          });
+          // alert({
+          //   text: 'Произошла ошибка при активации аккаунта! Возможно письмо устарело!',
+          //   severity: 'error',
+          // });
           navigate(routes.main.path);
         },
       );

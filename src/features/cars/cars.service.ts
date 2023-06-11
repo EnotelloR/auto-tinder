@@ -86,3 +86,12 @@ export const rentCar = async (rent: IRent): Promise<AxiosResponse> => {
     ...rent.rentData,
   });
 };
+
+export const sendIssue = async (
+  carID: string,
+  issueText: string,
+): Promise<AxiosResponse> => {
+  return await requestService.post(`/issues`, issueText, {
+    params: { key: 'CAR_ID', id: carID },
+  });
+};
